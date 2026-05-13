@@ -3,277 +3,998 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <title>Document</title>
+    <title>Startup Landing Page</title>
+    <style>
+      /* ################## Basic Reset & Variables ########### */
+      :root {
+        --primary-color: #4a6cf7; /* Blue */
+        --primary-dark: #2a4ac9;
+        --bg-dark: #090e34;
+        --bg-card: #1d2144;
+        --bg-lighter: #242b51;
+        --text-white: #ffffff;
+        --text-gray: #8b8fa4;
+        --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: var(--font-family);
+      }
+
+      body {
+        background-color: var(--bg-dark);
+        color: var(--text-white);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+        transition: 0.3s;
+      }
+
+      ul {
+        list-style: none;
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      /* Container Utility */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Buttons */
+      .btn {
+        display: inline-block;
+        padding: 12px 28px;
+        border-radius: 50px;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        font-size: 16px;
+      }
+
+      .btn-primary {
+        background-color: var(--primary-color);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+      }
+
+      .btn-outline {
+        background-color: transparent;
+        border: 2px solid var(--primary-color);
+        color: white;
+        margin-left: 10px;
+      }
+
+      .btn-outline:hover {
+        background-color: var(--primary-color);
+        color: white;
+      }
+
+      /* ################## Navbar Style ########### */
+      nav {
+        background-color: var(--bg-dark);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      .logo img {
+        height: 40px;
+        border-radius: 8px;
+      }
+
+      .menu-bar ul {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+      }
+
+      .menu-bar ul li a {
+        font-weight: 500;
+        color: #e0e0e0;
+      }
+
+      .menu-bar ul li a:hover {
+        color: var(--primary-color);
+      }
+
+      .menu-bar ul button {
+        background-color: var(--primary-color);
+        border-radius: 50px;
+        padding: 10px 25px;
+        border: none;
+        font-weight: bold;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .menu-bar ul button:hover {
+        background-color: var(--primary-dark);
+      }
+
+      /* Mobile Menu Toggle (Hidden on Desktop) */
+      .menu-toggle {
+        display: none;
+        font-size: 28px;
+        cursor: pointer;
+      }
+
+      /* ############## Hero Section Style ############# */
+      .hero-section {
+        text-align: center;
+        padding: 100px 20px;
+        position: relative;
+      }
+
+      /* Background blob effect */
+      .hero-section::before {
+        content: '';
+        position: absolute;
+        top: -50px;
+        right: -100px;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(74, 108, 247, 0.15) 0%, rgba(9, 14, 52, 0) 70%);
+        z-index: -1;
+      }
+
+      .hero-section h1 {
+        font-size: 56px;
+        font-weight: 800;
+        line-height: 1.2;
+        margin-bottom: 25px;
+        background: linear-gradient(to right, #ffffff, #aeb7e8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .hero-section p {
+        font-size: 18px;
+        color: var(--text-gray);
+        max-width: 700px;
+        margin: 0 auto 40px auto;
+      }
+
+      .hero-button {
+        margin-top: 20px;
+      }
+
+      /* ############## Features Section ############# */
+      .main-focas {
+        text-align: center;
+        margin-top: 60px;
+        margin-bottom: 50px;
+      }
+
+      .main-focas h1 {
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 15px;
+      }
+
+      .main-focas p {
+        font-size: 16px;
+        color: var(--text-gray);
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        padding: 20px 0 60px 0;
+      }
+
+      .feature-card {
+        background: var(--bg-card);
+        padding: 30px;
+        border-radius: 15px;
+        transition: 0.3s;
+        border: 1px solid transparent;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--primary-color);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      }
+
+      .feature-icon {
+        width: 60px;
+        height: 60px;
+        background-color: rgba(74, 108, 247, 0.1);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        color: var(--primary-color);
+      }
+      
+      .feature-icon svg {
+        width: 32px;
+        height: 32px;
+        fill: currentColor;
+      }
+
+      .feature-card h3 {
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+
+      .feature-card p {
+        font-size: 15px;
+        color: var(--text-gray);
+      }
+
+      /* ############## About Section ############# */
+      .about-section {
+        padding: 80px 0;
+        text-align: center;
+      }
+
+      .about-section h1 {
+        font-size: 40px;
+        margin-bottom: 20px;
+      }
+
+      .about-section p {
+        color: var(--text-gray);
+        max-width: 700px;
+        margin: 0 auto 50px auto;
+      }
+
+      .main-about {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 50px;
+      }
+
+      .allp {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .about-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .about-item .check-icon {
+        width: 24px;
+        height: 24px;
+        background-color: var(--primary-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .about-item p {
+        font-size: 16px;
+        margin: 0;
+      }
+
+      .aboutimg {
+        position: relative;
+      }
+
+      .aboutimg img {
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        border: 1px solid rgba(255,255,255,0.1);
+      }
+
+      /* ############## Pricing Section ############# */
+      .pricing-section {
+        padding: 80px 0;
+        text-align: center;
+      }
+
+      .pricing-header h1 {
+        font-size: 40px;
+        margin-bottom: 15px;
+      }
+
+      .pricing-header p {
+        color: var(--text-gray);
+        max-width: 600px;
+        margin: 0 auto 50px auto;
+      }
+
+      .pricing-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 30px;
+      }
+
+      .price-list {
+        background-color: var(--bg-card);
+        padding: 40px;
+        border-radius: 20px;
+        width: 100%;
+        max-width: 350px;
+        text-align: left;
+        border: 1px solid rgba(255,255,255,0.05);
+        transition: 0.3s;
+      }
+
+      .price-list:hover {
+        border-color: var(--primary-color);
+        transform: scale(1.02);
+      }
+
+      .list-head {
+        display: flex;
+        align-items: baseline;
+        gap: 5px;
+        margin-bottom: 5px;
+      }
+
+      .list-head h1 {
+        font-size: 42px;
+        font-weight: 700;
+      }
+
+      .list-head span {
+        color: var(--text-gray);
+        font-size: 16px;
+      }
+
+      .plan-name {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 15px;
+        display: block;
+      }
+
+      .price-list p.desc {
+        color: var(--text-gray);
+        font-size: 14px;
+        margin-bottom: 25px;
+      }
+
+      .price-list ul li {
+        margin-bottom: 15px;
+        color: #d1d5db;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .price-list ul li span {
+        color: var(--primary-color);
+      }
+
+      .price-btn-wrapper {
+        margin-top: 30px;
+      }
+
+      .price-btn-wrapper button {
+        width: 100%;
+        background-color: var(--bg-lighter);
+        color: white;
+        border: 1px solid var(--primary-color);
+        padding: 12px;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .price-btn-wrapper button:hover {
+        background-color: var(--primary-color);
+      }
+
+      /* ############## Support Section ############# */
+      .contact-box {
+        background-color: var(--bg-lighter);
+        padding: 80px 20px;
+        text-align: center;
+      }
+
+      .contact-box h2 {
+        font-size: 36px;
+        margin-bottom: 10px;
+      }
+
+      .contact-box h6 {
+        font-size: 24px;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+      }
+
+      .contact-box p {
+        color: var(--text-gray);
+        max-width: 600px;
+        margin: 0 auto 40px auto;
+      }
+
+      .input-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .input-box input,
+      .input-box textarea {
+        width: 100%;
+        max-width: 600px;
+        padding: 15px 20px;
+        border-radius: 10px;
+        border: 1px solid rgba(255,255,255,0.1);
+        background-color: var(--bg-dark);
+        color: white;
+        font-size: 16px;
+        outline: none;
+      }
+
+      .input-box input:focus,
+      .input-box textarea:focus {
+        border-color: var(--primary-color);
+      }
+
+      .input-box textarea {
+        height: 150px;
+        resize: vertical;
+      }
+
+      /* ############## Footer ############# */
+      .footer {
+        background-color: var(--bg-dark);
+        color: #ffffff;
+        padding: 80px 0 20px 0;
+        border-top: 1px solid rgba(255,255,255,0.05);
+      }
+
+      .footer-container {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 40px;
+      }
+
+      .footer-about {
+        flex: 1;
+        min-width: 250px;
+      }
+
+      .footer-about .logo {
+        margin-bottom: 20px;
+      }
+
+      .footer-about p {
+        color: var(--text-gray);
+        font-size: 15px;
+        max-width: 300px;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 60px;
+        flex-wrap: wrap;
+      }
+
+      .link-column h3 {
+        font-size: 18px;
+        margin-bottom: 20px;
+        font-weight: 600;
+      }
+
+      .link-column ul li {
+        margin-bottom: 12px;
+      }
+
+      .link-column ul li a {
+        color: var(--text-gray);
+        font-size: 15px;
+      }
+
+      .link-column ul li a:hover {
+        color: var(--primary-color);
+        padding-left: 5px;
+      }
+
+      .footer-bottom {
+        text-align: center;
+        margin-top: 60px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255,255,255,0.05);
+        color: var(--text-gray);
+        font-size: 14px;
+      }
+
+      /* ############## Responsive Media Queries ############# */
+      @media (max-width: 992px) {
+        .hero-section h1 {
+          font-size: 45px;
+        }
+        
+        .main-about {
+          grid-template-columns: 1fr;
+          text-align: left;
+        }
+        
+        .aboutimg {
+          order: -1; /* Image on top on tablet/mobile */
+          margin-bottom: 30px;
+          display: flex;
+          justify-content: center;
+        }
+        
+        .allp {
+          text-align: left;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .navbar {
+          position: relative;
+        }
+
+        /* Mobile Menu Styling */
+        .menu-toggle {
+          display: block;
+        }
+
+        .menu-bar {
+          display: none; /* Hidden by default on mobile */
+          position: absolute;
+          top: 70px;
+          left: 0;
+          width: 100%;
+          background-color: var(--bg-card);
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+          text-align: center;
+        }
+
+        .menu-bar.active {
+          display: block;
+        }
+
+        .menu-bar ul {
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        .menu-bar ul button {
+          width: 100%;
+          margin-top: 10px;
+        }
+
+        /* Hero Responsive */
+        .hero-section h1 {
+          font-size: 35px;
+        }
+
+        .hero-section p {
+          font-size: 16px;
+          padding: 0 10px;
+        }
+
+        .hero-button {
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
+          align-items: center;
+        }
+
+        .btn-outline {
+          margin-left: 0;
+        }
+
+        /* Features Responsive */
+        .features-grid {
+          grid-template-columns: 1fr; /* Stack cards */
+        }
+
+        /* About Responsive */
+        .allp {
+          grid-template-columns: 1fr;
+        }
+
+        /* Pricing Responsive */
+        .pricing-container {
+          flex-direction: column;
+          align-items: center;
+        }
+        
+        .price-list {
+          max-width: 100%;
+        }
+
+        /* Footer Responsive */
+        .footer-container {
+          flex-direction: column;
+        }
+
+        .footer-links {
+          flex-direction: column;
+          gap: 30px;
+        }
+      }
+    </style>
   </head>
   <body>
+    <!-- Navigation -->
     <nav>
-      <div class="navbar">
+      <div class="container navbar">
         <div class="logo">
+          <!-- Using a generic placeholder icon for stability -->
           <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_zjShEyw6_LOQDWINYJhzhualoVkOshDN_g&s"
-            alt=""
+            src="https://ui-avatars.com/api/?name=S&background=4a6cf7&color=fff&rounded=true"
+            alt="Logo"
           />
           <h1>Startup</h1>
         </div>
-        <div class="manu-bar">
+        
+        <!-- Hamburger Menu Icon for Mobile -->
+        <div class="menu-toggle" onclick="toggleMenu()">
+          &#9776;
+        </div>
+
+        <div class="menu-bar" id="menuBar">
           <ul>
             <li><a href="#hero-section">Home</a></li>
-            <li><a href="#about"> About </a></li>
-            <li><a href="#container">Pricing </a></li>
-            <li><a href="#contact">Support </a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#contact">Support</a></li>
             <li><a href="#">Pages</a></li>
             <li><a href="#">Sign In</a></li>
-            <button>
-              <a href="#"> Sign Up</a>
-            </button>
+            <li>
+              <button><a href="#">Sign Up</a></button>
+            </li>
           </ul>
         </div>
       </div>
     </nav>
-    <div class="hero-section">
-      <h1 id="hero-section">
-        Startup Focused <br />
-        Tailwind CSS Template
-      </h1>
-      <p>
-        A Complete Tailwind CSS Web Template Crafted for - Startup, SaaS,
-        Business, Software and Agencies. Comes with high-quality design and
-        everything you need!
-      </p>
-      <div class="her obutton">
-        <button class="button01">Get Started</button>
-        <button class="button02">Learn More</button>
-      </div>
-    </div>
-    <div class="main-focas">
-      <h1>Main Features</h1>
-      <p>
-        There are many variations of passages of Lorem Ipsum available but the
-        majority have suffered alteration in some form.
-      </p>
-    </div>
-    <div class="Main-Features1">
-      <div class="Crafted">
-        <img src="./Image/download (1).svg" alt="" />
-        <h1>Crafted for Startups</h1>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero-section">
+      <div class="container">
+        <h1>
+          Startup Focused <br />
+          Tailwind CSS Template
+        </h1>
         <p>
-          Tuae nam ex similique incidunt expedita exerci tationem laudantium.
-          Repellendus quisquam numquam perferendis earum sapiente non tempore?
-          Fugit repellat ut maiores.
+          A Complete Tailwind CSS Web Template Crafted for - Startup, SaaS,
+          Business, Software and Agencies. Comes with high-quality design and
+          everything you need!
         </p>
-      </div>
-      <div class="High-quality-Design">
-        <img src="/Image/gf.svg" alt="" />
-        <h1>High-quality Design</h1>
-        <p>
-          Tuae nam ex similique incidunt expedita exerci tationem laudantium.
-          Repellendus quisquam numquam perferendis earum sapiente non tempore?
-          Fugit repellat ut maiores.
-        </p>
-      </div>
-      <div class="All-Essential-Components">
-        <img src="/Image/bf.svg" alt="" />
-        <h1>All Essential Components</h1>
-        <p>
-          Tuae nam ex similique incidunt expedita exerci tationem laudantium.
-          Repellendus quisquam numquam perferendis earum sapiente non tempore?
-          Fugit repellat ut maiores.
-        </p>
-      </div>
-    </div>
-    <div class="Main-Features1">
-      <div class="Speed-Optimized">
-        <img src="/Image/setting.svg" alt="" />
-        <h1>Speed Optimized</h1>
-        <p>
-          Tuae nam ex similique incidunt expedita exerci tationem laudantium.
-          Repellendus quisquam numquam perferendis earum sapiente non tempore?
-          Fugit repellat ut maiores.
-        </p>
-      </div>
-      <div class="Fully-Customizable">
-        <img src="/Image/lay.svg" alt="" />
-        <h1>Fully Customizable</h1>
-        <p>
-          Tuae nam ex similique incidunt expedita exerci tationem laudantium.
-          Repellendus quisquam numquam perferendis earum sapiente non tempore?
-          Fugit repellat ut maiores.
-        </p>
-      </div>
-      <div class="Regular-Updates">
-        <img src="/Image/up.svg" alt="" />
-        <h1>Regular Updates</h1>
-        <p>
-          Tuae nam ex similique incidunt expedita exerci tationem laudantium.
-          Repellendus quisquam numquam perferendis earum sapiente non tempore?
-          Fugit repellat ut maiores.
-        </p>
-      </div>
-    </div>
-    <div class="about">
-      <h1 id="about">Crafted for Startup, SaaS and Business Sites.</h1>
-      <p>
-        The main ‘thrust’ is to focus on educating attendees on how to best
-        protect highly vulnerable <br />
-        business applications with interactive panel discussions and
-        roundtables.
-      </p>
-    </div>
-    <div class="main-about">
-      <div class="allp">
-        <div class="aboutp">
-          <img src="/Image/download (2).svg" alt="" />
-          <p>Premium quality</p>
-        </div>
-        <div class="aboutp">
-          <img src="/Image/download (2).svg" alt="" />
-          <p>No code required</p>
-        </div>
-        <div class="aboutp">
-          <img src="/Image/download (2).svg" alt="" />
-          <p>Use for lifetime</p>
-        </div>
-        <div class="aboutp">
-          <img src="/Image/download (2).svg" alt="" />
-          <p>Regular updates</p>
-        </div>
-        <div class="aboutp">
-          <img src="/Image/download (2).svg" alt="" />
-          <p>Rich documentation</p>
-        </div>
-        <div class="aboutp">
-          <img src="/Image/download (2).svg" alt="" />
-          <p>Developer friendly</p>
+        <div class="hero-button">
+          <button class="btn btn-primary">Get Started</button>
+          <button class="btn btn-outline">Learn More</button>
         </div>
       </div>
-      <div class="aboutimg">
-        <img src="/Image/imgi_10_about-image (1).svg" alt="" />
-      </div>
-    </div>
-    <!-- Pricing -->
-    <div class="Simple">
-      <h1 id="container">Simple and Affordable Pricing</h1>
-      <p>
-        There are many variations of passages of Lorem Ipsum <br />
-        available but the majority have suffered alteration in some form.
-      </p>
-    </div>
-    <div class="container">
-      <div class="price-list">
-        <div class="list-1">
-          <h1>$400 <span>/mo</span></h1>
-          <p>Lite</p>
-        </div>
-        <p>Lorem ipsum dolor sit amet adiscing elit Mauris egestas enim.</p>
-        <div class="button-03"><button>Start Free Trial</button></div>
-        <ul>
-          <li>☑️All UI Components</li>
-          <li>☑️Use with Unlimited Projects</li>
-          <li>☑️Commercial Use</li>
-          <li>☑️Email Support</li>
-          <li>☑️Lifetime Access</li>
-          <li>☑️Free Lifetime Updates</li>
-        </ul>
-      </div>
-      <div class="price-list">
-        <div class="list-1">
-          <h1>$550 <span>/mo</span></h1>
-          <p>Basic</p>
-        </div>
-        <p>Lorem ipsum dolor sit amet adiscing elit Mauris egestas enim.</p>
-        <div class="button-03"><button>Start Free Trial</button></div>
-        <ul>
-          <li>☑️All UI Components</li>
-          <li>☑️Use with Unlimited Projects</li>
-          <li>☑️Commercial Use</li>
-          <li>☑️Email Support</li>
-          <li>☑️Lifetime Access</li>
-          <li>☑️Free Lifetime Updates</li>
-        </ul>
-      </div>
-      <div class="price-list">
-        <div class="list-1">
-          <h1>$800 <span>/mo</span></h1>
-          <p>Plus</p>
-        </div>
-        <p>Lorem ipsum dolor sit amet adiscing elit Mauris egestas enim.</p>
-        <div class="button-03"><button>Start Free Trial</button></div>
-        <ul>
-          <li>☑️All UI Components</li>
-          <li>☑️Use with Unlimited Projects</li>
-          <li>☑️Commercial Use</li>
-          <li>☑️Email Support</li>
-          <li>☑️Lifetime Access</li>
-          <li>☑️Free Lifetime Updates</li>
-        </ul>
-      </div>
-    </div>
-    <!-- support -->
-    <div class="contact-box">
-      <h2 id="contact">Here's Support form</h2>
-      <h6>Have Any Questions?</h6>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipiscing elit hendrerit
-        condimentum turpis nisl sem, viverra habitasse urna ante lobortis
-        fermentum accumsan. Viverra habitasse urna ante lobortis fermentum
-        accumsan.
-      </p>
-      <div class="input-box">
-        <input type="text" placeholder="Name" />
-        <input type="text" placeholder="Email" /><br />
-        <textarea name="" id="" placeholder="message"></textarea>
-      </div>
-    </div>
-    <!-- Fotter -->
-    <footer class="footer">
-      <div class="footer-container">
-        <div class="footer-about">
-          <div class="logo">
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_zjShEyw6_LOQDWINYJhzhualoVkOshDN_g&s"
-              alt="Logo"
-            />
-            <h1>Startup</h1>
-          </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+      <div class="container">
+        <div class="main-focas">
+          <h1>Main Features</h1>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br />
-            Integer lobortis.
+            There are many variations of passages of Lorem Ipsum available but the
+            majority have suffered alteration in some form.
           </p>
         </div>
 
-        <div class="footer-links">
-          <div class="link-column">
-            <h3>Useful Links</h3>
-            <ul>
-              <li><a href="#">Blog</a></li>
-              <li><a href="#container">Pricing</a></li>
-              <li><a href="#about">About</a></li>
-            </ul>
+        <div class="features-grid">
+          <!-- Feature 1 -->
+          <div class="feature-card">
+            <div class="feature-icon">
+               <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zm0 9l2.5-1.25L12 8.5l-2.5 1.25L12 11zm0 2.5l-5-2.5-5 2.5L12 22l10-8.5-5-2.5-5 2.5z"/></svg>
+            </div>
+            <h3>Crafted for Startups</h3>
+            <p>
+              Tuae nam ex similique incidunt expedita exerci tationem laudantium.
+              Repellendus quisquam numquam perferendis.
+            </p>
           </div>
 
-          <div class="link-column">
-            <h3>Terms</h3>
-            <ul>
-              <li><a href="#">TOS</a></li>
-              <li><a href="#">Privacy Policy</a></li>
-              <li><a href="#">Refund Policy</a></li>
-            </ul>
+          <!-- Feature 2 -->
+          <div class="feature-card">
+            <div class="feature-icon">
+               <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            </div>
+            <h3>High-quality Design</h3>
+            <p>
+              Tuae nam ex similique incidunt expedita exerci tationem laudantium.
+              Repellendus quisquam numquam perferendis.
+            </p>
           </div>
 
-          <div class="link-column">
-            <h3>Support & Help</h3>
-            <ul>
-              <li><a href="#contact">Open Support Ticket</a></li>
-              <li><a href="#">Terms of Use</a></li>
-              <li><a href="#">About AI</a></li>
-            </ul>
+          <!-- Feature 3 -->
+          <div class="feature-card">
+            <div class="feature-icon">
+               <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L3.16 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.04.24.24.41.48.41h3.84c.24 0 .43-.17.47-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+            </div>
+            <h3>All Essential Components</h3>
+            <p>
+              Tuae nam ex similique incidunt expedita exerci tationem laudantium.
+              Repellendus quisquam numquam perferendis.
+            </p>
+          </div>
+
+          <!-- Feature 4 -->
+          <div class="feature-card">
+            <div class="feature-icon">
+               <svg viewBox="0 0 24 24"><path d="M20.38 8.57l-1.23 1.85a8 8 0 0 1-.22 7.58H5.07A8 8 0 0 1 8.8 5.63l1.23 1.85a6 6 0 0 0 1.6 9.41h1.74a6 6 0 0 0 1.6-9.41zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+            </div>
+            <h3>Speed Optimized</h3>
+            <p>
+              Tuae nam ex similique incidunt expedita exerci tationem laudantium.
+              Repellendus quisquam numquam perferendis.
+            </p>
+          </div>
+
+          <!-- Feature 5 -->
+          <div class="feature-card">
+            <div class="feature-icon">
+               <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+            </div>
+            <h3>Fully Customizable</h3>
+            <p>
+              Tuae nam ex similique incidunt expedita exerci tationem laudantium.
+              Repellendus quisquam numquam perferendis.
+            </p>
+          </div>
+
+          <!-- Feature 6 -->
+          <div class="feature-card">
+            <div class="feature-icon">
+               <svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
+            </div>
+            <h3>Regular Updates</h3>
+            <p>
+              Tuae nam ex similique incidunt expedita exerci tationem laudantium.
+              Repellendus quisquam numquam perferendis.
+            </p>
           </div>
         </div>
       </div>
-      <div class="footer-bottom">
-        <p>© Crafted by UIdeck for You!</p>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+      <div class="container">
+        <h1>Crafted for Startup, SaaS and Business Sites.</h1>
+        <p>
+          The main ‘thrust’ is to focus on educating attendees on how to best
+          protect highly vulnerable business applications with interactive panel
+          discussions and roundtables.
+        </p>
+
+        <div class="main-about">
+          <div class="allp">
+            <div class="about-item">
+              <div class="check-icon">✓</div>
+              <p>Premium quality</p>
+            </div>
+            <div class="about-item">
+              <div class="check-icon">✓</div>
+              <p>No code required</p>
+            </div>
+            <div class="about-item">
+              <div class="check-icon">✓</div>
+              <p>Use for lifetime</p>
+            </div>
+            <div class="about-item">
+              <div class="check-icon">✓</div>
+              <p>Regular updates</p>
+            </div>
+            <div class="about-item">
+              <div class="check-icon">✓</div>
+              <p>Rich documentation</p>
+            </div>
+            <div class="about-item">
+              <div class="check-icon">✓</div>
+              <p>Developer friendly</p>
+            </div>
+          </div>
+          <div class="aboutimg">
+            <!-- Placeholder for about image -->
+            <img src="https://picsum.photos/seed/startup/600/400" alt="About Startup" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section" id="pricing">
+      <div class="container">
+        <div class="pricing-header">
+          <h1>Simple and Affordable Pricing</h1>
+          <p>
+            There are many variations of passages of Lorem Ipsum available but
+            the majority have suffered alteration in some form.
+          </p>
+        </div>
+
+        <div class="pricing-container">
+          <!-- Plan 1 -->
+          <div class="price-list">
+            <div class="list-head">
+              <h1>$400</h1>
+              <span>/mo</span>
+            </div>
+            <span class="plan-name">Lite</span>
+            <p class="desc">Lorem ipsum dolor sit amet adiscing elit Mauris egestas enim.</p>
+            
+            <ul>
+              <li><span>☑</span> All UI Components</li>
+              <li><span>☑</span> Use with Unlimited Projects</li>
+              <li><span>☑</span> Commercial Use</li>
+              <li><span>☑</span> Email Support</li>
+              <li><span>☑</span> Lifetime Access</li>
+              <li><span>☑</span> Free Lifetime Updates</li>
+            </ul>
+            <div class="price-btn-wrapper"><button>Start Free Trial</button></div>
+          </div>
+
+          <!-- Plan 2 -->
+          <div class="price-list">
+            <div class="list-head">
+              <h1>$550</h1>
+              <span>/mo</span>
+            </div>
+            <span class="plan-name">Basic</span>
+            <p class="desc">Lorem ipsum dolor sit amet adiscing elit Mauris egestas enim.</p>
+            
+            <ul>
+              <li><span>☑</span> All UI Components</li>
+              <li><span>☑</span> Use with Unlimited Projects</li>
+              <li><span>☑</span> Commercial Use</li>
+              <li><span>☑</span> Email Support</li>
+              <li><span>☑</span> Lifetime Access</li>
+              <li><span>☑</span> Free Lifetime Updates</li>
+            </ul>
+            <div class="price-btn-wrapper"><button>Start Free Trial</button></div>
+          </div>
+
+          <!-- Plan 3 -->
+          <div class="price-list">
+            <div class="list-head">
+              <h1>$800</h1>
+              <span>/mo</span>
+            </div>
+            <span class="plan-name">Plus</span>
+            <p class="desc">Lorem ipsum dolor sit amet adiscing elit Mauris egestas enim.</p>
+            
+            <ul>
+              <li><span>☑</span> All UI Components</li>
+              <li><span>☑</span> Use with Unlimited Projects</li>
+              <li><span>☑</span> Commercial Use</li>
+              <li><span>☑</span> Email Support</li>
+              <li><span>☑</span> Lifetime Access</li>
+              <li><span>☑</span> Free Lifetime Updates</li>
+            </ul>
+            <div class="price-btn-wrapper"><button>Start Free Trial</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Support Section -->
+    <section class="contact-box" id="contact">
+      <div class="container">
+        <h2>Here's Support form</h2>
+        <h6>Have Any Questions?</h6>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipiscing elit hendrerit
+          condimentum turpis nisl sem, viverra habitasse urna ante lobortis
+          fermentum accumsan.
+        </p>
+        <div class="input-box">
+          <input type="text" placeholder="Name" />
+          <input type="email" placeholder="Email" />
+          <textarea placeholder="Message"></textarea>
+          <button class="btn btn-primary" style="width: 100%; max-width: 600px;">Send Message</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-container">
+          <div class="footer-about">
+            <div class="logo">
+              <img
+                src="https://ui-avatars.com/api/?name=S&background=4a6cf7&color=fff&rounded=true"
+                alt="Logo"
+              />
+              <h1>Startup</h1>
+            </div>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+              lobortis.
+            </p>
+          </div>
+
+          <div class="footer-links">
+            <div class="link-column">
+              <h3>Useful Links</h3>
+              <ul>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#about">About</a></li>
+              </ul>
+            </div>
+
+            <div class="link-column">
+              <h3>Terms</h3>
+              <ul>
+                <li><a href="#">TOS</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Refund Policy</a></li>
+              </ul>
+            </div>
+
+            <div class="link-column">
+              <h3>Support & Help</h3>
+              <ul>
+                <li><a href="#contact">Open Support Ticket</a></li>
+                <li><a href="#">Terms of Use</a></li>
+                <li><a href="#">About AI</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© Crafted by UIdeck for You!</p>
+        </div>
       </div>
     </footer>
+
+    <!-- Simple Script for Mobile Menu -->
+    <script>
+      function toggleMenu() {
+        const menu = document.getElementById('menuBar');
+        menu.classList.toggle('active');
+      }
+    </script>
   </body>
 </html>
